@@ -11,6 +11,7 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import Footer from './components/Footer';
+import T from './components/T';
 
 import { getClient } from './lib/apollo-client';
 import { GET_BRANDS } from './lib/graphql';
@@ -104,11 +105,11 @@ export default function HomePage() {
                     lineHeight: 1.2,
                   }}
                 >
-                  Browse top quality{' '}
+                  <T k="home.hero.titlePrefix" />{' '}
                   <Box component="span" sx={{ color: '#ff6b35' }}>
-                    Guitars
+                    <T k="home.hero.titleHighlight" />
                   </Box>{' '}
-                  online.
+                  <T k="home.hero.titleSuffix" />
                 </Typography>
                 <Typography 
                   variant="h6" 
@@ -122,7 +123,7 @@ export default function HomePage() {
                     mb: "155px",
                   }}
                 >
-                  Explore 50k+ latest collections of branded guitars online with VibeStrings.
+                  <T k="home.hero.subtitle" />
                 </Typography>
               </Box>
             </Grid>
@@ -165,9 +166,9 @@ export default function HomePage() {
               color: '#000',
             }}
           >
-            Featuring the{' '}
+            <T k="home.featured.titlePrefix" />{' '}
             <Box component="span" sx={{ color: '#ff6b35' }}>
-              Best Brands
+              <T k="home.featured.titleHighlight" />
             </Box>
           </Typography>
           <Typography 
@@ -180,7 +181,7 @@ export default function HomePage() {
               color: '#666',
             }}
           >
-            Select your preferred brand and explore our exquisite collection.
+            <T k="home.featured.subtitle" />
           </Typography>
         </Box>
         
@@ -200,11 +201,11 @@ export default function HomePage() {
               color: 'white'
             }}
           >
-            Why try{' '}
+            <T k="home.why.titlePrefix" />{' '}
             <Box component="span" sx={{ color: '#ff6b35' }}>
               VibeStrings
             </Box>
-            ?
+            <T k="home.why.titleSuffix" />
           </Typography>
           
           <Grid container spacing={4}>
@@ -276,11 +277,11 @@ export default function HomePage() {
                   textAlign: 'center',
                 }}
               >
-                Browse and buy your{' '}
+                <T k="home.mobile.titlePrefix" />{' '}
                 <Box component="span" sx={{ color: '#ff6b35' }}>
-                  favorite guitars
+                  <T k="home.mobile.titleHighlight" />
                 </Box>{' '}
-                with VibeStrings.
+                <T k="home.mobile.titleSuffix" />
               </Typography>
               
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'start', gap: 2, flexWrap: 'wrap' }}>

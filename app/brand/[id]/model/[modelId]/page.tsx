@@ -57,7 +57,7 @@ export default function ModelDetailPage() {
   if (!model) {
     return (
       <Container maxWidth="lg" sx={{ py: 6 }}>
-        <Alert severity="warning">Model not found</Alert>
+        <Alert severity="warning">{t('model.notFound')}</Alert>
       </Container>
     );
   }
@@ -68,7 +68,7 @@ export default function ModelDetailPage() {
         <Link href={`/brand/${brandId}`}  style={{ textDecoration: 'none' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', color: '#666', mb: 2 }}>
             <ArrowBack sx={{ mr: 1, fontSize: 20 }} />
-            <Typography variant="body2">Back To List</Typography>
+            <Typography variant="body2">{t('nav.backList')}</Typography>
           </Box>
         </Link>
       </Container>
@@ -149,6 +149,7 @@ export default function ModelDetailPage() {
 }
 
 function TabsSection({ model }: { model: any; }) {
+  const { t } = useTranslation();
   const [tab, setTab] = useState(0);
 
   return (
@@ -160,8 +161,8 @@ function TabsSection({ model }: { model: any; }) {
           textColor="primary"
           indicatorColor="primary"
         >
-          <Tab sx={{ width: '50%', maxWidth: '50%', fontSize: '24px', fontWeight: 400, textTransform: 'none' }} label="Specification" />
-          <Tab sx={{ width: '50%', maxWidth: '50%', fontSize: '24px', fontWeight: 400, textTransform: 'none' }} label="Who plays it?" />
+          <Tab sx={{ width: '50%', maxWidth: '50%', fontSize: '24px', fontWeight: 400, textTransform: 'none' }} label={t('model.specification')} />
+          <Tab sx={{ width: '50%', maxWidth: '50%', fontSize: '24px', fontWeight: 400, textTransform: 'none' }} label={t('model.whoPlaysIt')} />
         </Tabs>
       </Box>
 
@@ -174,25 +175,25 @@ function TabsSection({ model }: { model: any; }) {
               </Typography>
               <Box component="ul" sx={{ pl: 3, m: 0, color: '#3D3D46', fontSize: '24px', fontWeight: 300 }}>
                 <li>
-                  <Typography variant="body1">Body Wood: "{model?.specs?.bodyWood}",</Typography>
+                  <Typography variant="body1">{t('model.specs.bodyWood')}: "{model?.specs?.bodyWood}",</Typography>
                 </li>
                 <li>
-                  <Typography variant="body1">Neck Wood: "{model?.specs?.neckWood}",</Typography>
+                  <Typography variant="body1">{t('model.specs.neckWood')}: "{model?.specs?.neckWood}",</Typography>
                 </li>
                 <li>
-                  <Typography variant="body1">Fingerboard: "{model?.specs?.fingerboardWood}",</Typography>
+                  <Typography variant="body1">{t('model.specs.fingerboard')}: "{model?.specs?.fingerboardWood}",</Typography>
                 </li>
                 <li>
-                  <Typography variant="body1">Pickups: "{model?.specs?.pickups}",</Typography>
+                  <Typography variant="body1">{t('model.specs.pickups')}: "{model?.specs?.pickups}",</Typography>
                 </li>
                 <li>
-                  <Typography variant="body1">Tuners: "{model?.specs?.tuners}",</Typography>
+                  <Typography variant="body1">{t('model.specs.tuners')}: "{model?.specs?.tuners}",</Typography>
                 </li>
                 <li>
-                  <Typography variant="body1">Scale Length: "{model?.specs?.scaleLength}",</Typography>
+                  <Typography variant="body1">{t('model.specs.scaleLength')}: "{model?.specs?.scaleLength}",</Typography>
                 </li>
                 <li>
-                  <Typography variant="body1">Bridge: "{model?.specs?.bridge}"</Typography>
+                  <Typography variant="body1">{t('model.specs.bridge')}: "{model?.specs?.bridge}"</Typography>
                 </li>
               </Box>
             </Box>

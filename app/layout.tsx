@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ fontFamily: '"Satoshi", "Inter", "Roboto", "Helvetica", "Arial", sans-serif' }}>
+      <body style={{ fontFamily: '"Satoshi", sans-serif' }}>
         <I18nProvider>
           <ApolloProvider>
             <ThemeProvider>

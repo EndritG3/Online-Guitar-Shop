@@ -6,10 +6,11 @@ A modern guitar shop built with Next.js 14+, Apollo Client, and Material-UI.
 
 - **3-Page Application**: Home, Guitars listing, and Individual guitar detail pages
 - **GraphQL Integration**: Uses Apollo Client with SSR support
-- **Internationalization**: Support for English, Albanian (SQ), and Macedonian (MK)
+- **Internationalization**: English (EN), Albanian (SQ), and Macedonian (MK)
+- **Language switcher in footer**: Changes language instantly and is **persisted in localStorage**
 - **Modern UI**: Built with Material-UI components
 - **Responsive Design**: Mobile-first approach
-- **Search & Filtering**: Advanced search with brand, type, and price filters
+- **Search & Filtering**: Brand page includes styled filter-by-type and search-by-name inputs
 - **TypeScript**: Full type safety throughout the application
 
 ## Tech Stack
@@ -54,21 +55,26 @@ npm run dev
 ```
 guitar-shop/
 ├── app/
-│   ├── components/          # Reusable UI components
-│   │   ├── Navigation.tsx   # Main navigation with language switcher
-│   │   ├── GuitarCard.tsx   # Guitar card component
-│   │   └── SearchFilters.tsx # Search and filter component
-│   ├── lib/                 # Utility functions and configurations
-│   │   ├── apollo-client.ts # Apollo Client configuration
-│   │   ├── graphql.ts       # GraphQL queries and types
-│   │   ├── i18n.ts          # Internationalization setup
-│   │   └── theme.ts         # MUI theme configuration
-│   ├── guitars/             # Guitars listing page
-│   ├── guitar/[id]/         # Individual guitar detail page
-│   ├── cart/                # Shopping cart page
-│   ├── layout.tsx           # Root layout with providers
-│   └── page.tsx             # Home page
-├── public/                  # Static assets
+│   ├── components/
+│   │   ├── ApolloProvider.tsx
+│   │   ├── Footer.tsx            # Footer with language switcher (EN/SQ/MK)
+│   │   ├── I18nProvider.tsx
+│   │   ├── ThemeProvider.tsx
+│   │   └── T.tsx                 # Small client helper to use translations in server files
+│   ├── brand/
+│   │   └── [id]/
+│   │       ├── model/
+│   │       │   └── [modelId]/
+│   │       │       └── page.tsx  # Model detail (tabs + specs)
+│   │       └── page.tsx          # Brand page (filter/search + models)
+│   ├── lib/
+│   │   ├── apollo-client.ts
+│   │   ├── graphql.ts
+│   │   ├── i18n.ts               # i18n resources + localStorage persistence
+│   │   └── theme.ts
+│   ├── layout.tsx                # Root layout with providers
+│   └── page.tsx                  # Home page
+├── public/
 ├── package.json
 ├── tsconfig.json
 ├── next.config.js
@@ -78,26 +84,17 @@ guitar-shop/
 ## Pages
 
 ### 1. Home Page (`/`)
-- Hero section with call-to-action
-- Featured guitars section
-- Responsive design
+- Localized hero and sections (uses translations)
+- Featured brands grid
 
-### 2. Guitars Page (`/guitars`)
-- Grid layout of all guitars
-- Advanced search and filtering
-- URL-based state management
-- Loading and error states
+### 2. Brand Page (`/brand/[id]`)
+- Localized texts
+- Filter by type (left icon + caret) and search by name (left icon)
+- Paginated model grid
 
-### 3. Guitar Detail Page (`/guitar/[id]`)
-- Detailed guitar information
-- Full specifications
-- Add to cart functionality
-- Responsive image gallery
-
-### 4. Cart Page (`/cart`)
-- Shopping cart interface
-- Item management
-- Checkout process (placeholder)
+### 3. Model Detail Page (`/brand/[id]/model/[modelId]`)
+- Localized tabs: Specification / Who plays it?
+- Specs list (localized labels)
 
 ## GraphQL API
 
@@ -107,19 +104,41 @@ https://graphql-api-brown.vercel.app/api/graphql
 ```
 
 ### Main Queries:
-- `GET_GUITARS`: Fetch guitars with filtering
-- `GET_GUITAR`: Fetch individual guitar details
 - `GET_BRANDS`: Fetch available brands
-- `GET_TYPES`: Fetch available guitar types
+- `GET_BRAND_BY_ID`: Fetch brand details + models
+- `GET_MODEL`: Fetch a single model by brand and model id
 
 ## Internationalization
 
-The application supports three languages:
-- **English (EN)**: Default language
-- **Albanian (SQ)**: Shqip
-- **Macedonian (MK)**: Македонски
+- Languages: **English (EN)**, **Albanian (SQ)**, **Macedonian (MK)**
+- Switcher: in the footer (`Footer.tsx`)
+- Persistence: the selected language is saved to `localStorage` under the key `lang` and restored on load
+- Resources: defined in `app/lib/i18n.ts`
 
-Language switching is available in the navigation bar.
+Using translations in client components:
+```tsx
+import { useTranslation } from 'react-i18next';
+
+const MyClient = () => {
+  const { t } = useTranslation();
+  return <span>{t('filter.byType')}</span>;
+};
+```
+
+Using translations in server files (via small client helper `T.tsx`):
+```tsx
+import T from '@/app/components/T';
+
+export default function HeroTitle() {
+  return (
+    <h1>
+      <T k="home.hero.titlePrefix" />{' '}
+      <span><T k="home.hero.titleHighlight" /></span>{' '}
+      <T k="home.hero.titleSuffix" />
+    </h1>
+  );
+}
+```
 
 ## Available Scripts
 

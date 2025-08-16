@@ -12,10 +12,7 @@ import {
   TextField,
   InputAdornment,
   Pagination,
-  Select,
   MenuItem,
-  FormControl,
-  InputLabel,
   Alert,
   CircularProgress,
 } from '@mui/material';
@@ -70,7 +67,7 @@ export default function BrandPage({ params }: { params: { id: string } }) {
         <Link href="/" style={{ textDecoration: 'none' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', color: '#666', mb: 2 }}>
             <ArrowBack sx={{ mr: 1, fontSize: 20 }} />
-            <Typography variant="body2">Back To Home</Typography>
+            <Typography variant="body2">{t('nav.backHome')}</Typography>
           </Box>
         </Link>
       </Container>
@@ -105,9 +102,9 @@ export default function BrandPage({ params }: { params: { id: string } }) {
                     lineHeight: 1.2,
                   }}
                 >
-                   Play like a{' '}
+                   {t('hero.playLikeA')}{' '}
                 <Box component="span" sx={{ color: '#ff6b35' }}>
-                  Rock star
+                  {t('hero.rockStar')}
                 </Box>
                 </Typography>
                 <Typography 
@@ -122,9 +119,9 @@ export default function BrandPage({ params }: { params: { id: string } }) {
                   mb: 3,
                 }}
               >
-                Experience the legacy of {brand?.name || 'Brand'} craftsmanship, where every guitar is built to inspire creativity and elevate your performance. Our commitment to excellence delivers instruments that are built to play fast, sound bold, and stand out on any stage.
+                {t('hero.description', { brand: brand?.name || 'Brand' })}
                 <br />
-                Ask ChatGPT
+                {t('hero.ask')}
               </Typography>
               </Box>
             </Grid>
@@ -176,51 +173,99 @@ export default function BrandPage({ params }: { params: { id: string } }) {
             textAlign: 'center',
           }}
         >
-          Check out the{' '}
+          {t('selection.titlePrefix')}{' '}
           <Box component="span" sx={{ color: '#ff6b35' }}>
-            Selection
+            {t('selection.titleHighlight')}
           </Box>
         </Typography>
 
-        <Box sx={{ mb: 6 }}>
+        <Box sx={{ mb: 6, width: '60%', mx: 'auto' }}>
           <Grid container spacing={3} alignItems="center">
             <Grid item xs={12} md={6}>
-              <FormControl fullWidth>
-                <InputLabel>Filter by type</InputLabel>
-                <Select
-                  value={filterType}
-                  onChange={(e) => setFilterType(e.target.value)}
-                  startAdornment={
+              <TextField
+                fullWidth
+                select
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value)}
+                placeholder={t('filter.byType')}
+                SelectProps={{
+                  displayEmpty: true,
+                  IconComponent: KeyboardArrowDown,
+                  renderValue: (selected) => {
+                    if (!selected) {
+                      return t('filter.byType');
+                    }
+                    return String(selected as string);
+                  },
+                }}
+                InputProps={{
+                  startAdornment: (
                     <InputAdornment position="start">
-                      <FilterList sx={{ color: '#666' }} />
+                      <FilterList sx={{ color: '#B8BCC9' }} />
                     </InputAdornment>
-                  }
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <KeyboardArrowDown sx={{ color: '#666' }} />
-                    </InputAdornment>
-                  }
-                >
-                  <MenuItem value="">All Types</MenuItem>
-                  {Array.from(new Set(models.map((model: any) => model.type))).map((type: any) => (
-                    <MenuItem key={type} value={type}>{type}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                  ),
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    height: 56,
+                    borderRadius: '4px',
+                  },
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#E8E8E8',
+                  },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#E8E8E8',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#E8E8E8',
+                    boxShadow: '0 0 0 2px rgba(0,0,0,0.02)'
+                  },
+                  '& .MuiSelect-select': {
+                    display: 'flex',
+                    alignItems: 'center',
+                    color: filterType ? '#121212' : '#B8BCC9',
+                  },
+                }}
+              >
+                <MenuItem value="">{t('filter.allTypes')}</MenuItem>
+                {Array.from(new Set(models.map((model: any) => model.type))).map((type: any) => (
+                  <MenuItem key={type} value={type}>{type}</MenuItem>
+                ))}
+              </TextField>
             </Grid>
             
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
-                placeholder="Search by name"
+                placeholder={t('search.byName')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Search sx={{ color: '#666' }} />
+                      <Search sx={{ color: '#B8BCC9' }} />
                     </InputAdornment>
                   ),
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    height: 56,
+                    borderRadius: '4px',
+                  },
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#E8E8E8',
+                  },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#E8E8E8',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#E8E8E8',
+                    boxShadow: '0 0 0 2px rgba(0,0,0,0.02)'
+                  },
+                  '& .MuiOutlinedInput-input::placeholder': {
+                    color: '#B8BCC9',
+                    opacity: 1,
+                  },
                 }}
               />
             </Grid>
@@ -285,7 +330,7 @@ export default function BrandPage({ params }: { params: { id: string } }) {
         {!loading && !error && (
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 4 }}>
             <Typography variant="body2" color="#9292A3" sx={{ fontSize: '14px', fontWeight: 400 }}>
-              SHOWING <span style={{ fontWeight: 700, color: '#3D3D46' }}>{paginatedProducts.length.toLocaleString('en-US')}</span> RESULTS FROM <span style={{ fontWeight: 700, color: '#3D3D46' }}>{filteredProducts.length.toLocaleString('en-US')}</span>
+              {t('pagination.showingResults', { count: paginatedProducts.length.toLocaleString('en-US'), total: filteredProducts.length.toLocaleString('en-US') })}
             </Typography>
           
             <Pagination
