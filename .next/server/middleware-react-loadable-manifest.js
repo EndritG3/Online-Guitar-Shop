@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST="{\"app/components/I18nProvider.tsx -> ../lib/i18n\":{\"id\":\"app/components/I18nProvider.tsx -> ../lib/i18n\",\"files\":[]}}"
